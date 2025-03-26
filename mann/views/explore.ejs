@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnovaConnect - Explore Startups</title>
+    <link rel="stylesheet" href="/css/explore.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">INNOVACONNECT</div>
+        <div class="nav-links">
+            <a href="#" class="active">Explore</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <% if (allStartups && allStartups.length > 0) { %>
+            <% allStartups.forEach(function(startup) { %>
+                <div class="startup-card">
+                    <h2><%= startup.title %></h2>
+                    
+                    <p><strong>Category:</strong> <%= startup.category %></p>
+                    
+                    <% if (startup.fundingGoal && startup.fundingGoal.amount) { %>
+                        <p class="funding">Seeking Funding: ₹<%= startup.fundingGoal.amount.toLocaleString() %></p>
+                    <% } %>
+                    
+                    <p><strong>Description:</strong> <%= startup.description %></p>
+                    
+                    <% if (startup.isBootstrapped !== undefined) { %>
+                        <p><strong>Bootstrapped:</strong> <%= startup.isBootstrapped ? 'Yes' : 'No' %></p>
+                    <% } %>
+                    
+                    <div class="buttons">
+                        <button class="chat-btn" data-startup-id="<%= startup._id %>">💬 Chat</button>
+                        <button class="ai-btn" data-startup-id="<%= startup._id %>">🤖 AI Q&A</button>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="no-startups">
+                <p>No startups found. Be the first to add a startup!</p>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="/js/explore.js"></script>
+</body>
+</html>

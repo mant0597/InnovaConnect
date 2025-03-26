@@ -1,0 +1,28 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+   <div id="chat-container">
+        <h1><%= startup.title %></h1>
+        <div id="chat-history"></div>
+        <form id="chat-form" value = <%= startup._id %>>  
+            <!-- make sure to keep this value field for getting startup id from the frontend to pas in the backend -->
+            <!-- probably have to keep value = allStartups[i]._id -->
+            <input type="text" id="user-input" placeholder="Enter your message">
+            <button type="submit" >Send</button>
+        </form>
+    </div>
+    <div id="loader">
+        <img src="/img/loader.gif" width="150px" alt="Loading...">
+    </div> 
+    
+
+    <script src="/js/chat.js"></script>
+</body>
+</html>
