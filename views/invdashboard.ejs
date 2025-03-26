@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Dashboard | InnovaConnect</title>
+    <link rel="stylesheet" href="/css/invdashboard.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Investor Dashboard</h2>
+        <ul>
+            <li onclick="showContent('overview')">📊 Overview</li>
+            <li onclick="showContent('opportunities')">🚀 Investment Opportunities</li>
+            <li onclick="showContent('portfolio')">💼 My Portfolio</li>
+            <li onclick="showContent('funding')">💰 Funding History</li>
+            <li onclick="showContent('settings')">⚙️ Settings</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">Welcome, Investor!</div>
+        <div class="dashboard-info" id="dashboard-content">
+            <div class="card">
+                <h3>📊 Overview</h3>
+                <p>View investment trends and startup performance.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showContent(section) {
+            let content = {
+                overview: "<h3>📊 Overview</h3><p>View investment trends and startup performance.</p>",
+                opportunities: "<h3>🚀 Investment Opportunities</h3><p>Explore promising startups to invest in.</p>",
+                portfolio: "<h3>💼 My Portfolio</h3><p>Track your investments and performance.</p>",
+                funding: "<h3>💰 Funding History</h3><p>View all your past investments.</p>",
+                settings: "<h3>⚙️ Settings</h3><p>Manage your profile and security settings.</p>"
+            };
+            document.getElementById("dashboard-content").innerHTML = `<div class="card">${content[section]}</div>`;
+        }
+    </script>
+
+</body>
+</html>
