@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Logs</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+    </nav>
+
+    <h2>Developer Panel - Add Update</h2>
+    <form id="logForm">
+        <input type="text" id="title" placeholder="Title" required>
+        <textarea id="description" placeholder="Description" required></textarea>
+        <input type="text" id="progress" placeholder="Progress (e.g. In Progress)">
+        <input type="number" id="projectId" placeholder="Project ID" required>
+        <input type="text" id="createdBy" placeholder="Your Name" required>
+        <button type="submit">Add Log</button>
+    </form>
+
+    <h2>Project Updates</h2>
+    <div id="logsContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
