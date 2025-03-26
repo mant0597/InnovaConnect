@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | InnovaConnect</title>
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+
+    <div class="register-container">
+        <!-- Toggle Button for Role Selection -->
+        <div class="toggle-buttons">
+            <button id="startup-btn" class="active" onclick="toggleRegister('startup')">Startup</button>
+            <button id="investor-btn" onclick="toggleRegister('investor')">Investor</button>
+        </div>
+
+        <!-- Startup Register Form -->
+        <form id="startup-form" class="register-form" action="/register" method="post">
+            <input type="hidden" name="role" value="startup">
+            <input type="email" name="email" placeholder="Startup Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Register as Startup</button>
+        </form>
+
+        <!-- Investor Register Form (Initially Hidden) -->
+        <form id="investor-form" class="register-form" style="display: none;" action="/register" method="post">
+            <input type="hidden" name="role" value="investor">
+            <input type="email" name="email" placeholder="Investor Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Register as Investor</button>
+        </form>
+
+        <!-- <div class="roauth">
+            <a href="/auth/google">sign up with google</a>
+        </div> -->
+
+        <div class="login-link">
+            Already have an account? <a href="/login">Login</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleRegister(role) {
+            if (role === 'startup') {
+                document.getElementById('startup-form').style.display = "flex";
+                document.getElementById('investor-form').style.display = "none";
+                document.getElementById('startup-btn').classList.add("active");
+                document.getElementById('investor-btn').classList.remove("active");
+            } else {
+                document.getElementById('startup-form').style.display = "none";
+                document.getElementById('investor-form').style.display = "flex";
+                document.getElementById('investor-btn').classList.add("active");
+                document.getElementById('startup-btn').classList.remove("active");
+            }
+        }
+    </script>
+
+</body>
+</html>
