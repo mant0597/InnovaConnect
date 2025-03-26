@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        input, select, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center;">Startup Registration</h2>
+    
+    <form id="startupForm">
+        <label>Owner ID:</label>
+        <input type="text" id="owner" placeholder="Enter Owner ID" required>
+
+        <label>Startup Title:</label>
+        <input type="text" id="title" placeholder="Enter Startup Name" required>
+
+        <label>Description:</label>
+        <textarea id="description" placeholder="Enter description" required></textarea>
+
+        <label>Is Bootstrapped?</label>
+        <select id="isBootstrapped">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+
+        <div id="fundingSection" style="display: none;">
+            <label>Funding Amount:</label>
+            <input type="number" id="fundingAmount" placeholder="Amount Raised">
+
+            <label>Startup Valuation:</label>
+            <input type="number" id="valuation" placeholder="Valuation">
+        </div>
+
+        <label>Category:</label>
+        <select id="category">
+            <option value="Tech">Tech</option>
+            <option value="Health">Health</option>
+            <option value="Finance">Finance</option>
+            <option value="Agriculture">Agriculture</option>
+            <option value="Education">Education</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <button type="submit">Register Startup</button>
+    </form>
+
+    <script>
+        document.getElementById("isBootstrapped").addEventListener("change", function() {
+            document.getElementById("fundingSection").style.display = this.value === "false" ? "block" : "none";
+        });
+
+        document.getElementById("startupForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const startupData = {
+                owner: document.getElementById("owner").value,
+                title: document.getElementById("title").value,
+                description: document.getElementById("description").value,
+                isBootstrapped: document.getElementById("isBootstrapped").value === "true",
+                fundingGoal: {
+                    amount: document.getElementById("fundingAmount").value || null,
+                    valuation: document.getElementById("valuation").value || null
+                },
+                category: document.getElementById("category").value
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/api/startups", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(startupData)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Startup Registered Successfully!");
+                    document.getElementById("startupForm").reset();
+                } else {
+                    alert("Error: " + result.error);
+                }
+            } catch (error) {
+                alert("Error connecting to server.");
+            }
+        });
+    </script>
+
+</body>
+</html>
