@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Startup Dashboard</title>
+    <link rel="stylesheet" href="/css/startup.css">
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Startup Dashboard</h1>
+
+    <div id="notificationBox" style="display:none;">
+        <h2>New Chat Request</h2>
+        <button id="joinChatButton" onclick="joinChat() ">Join Chat</button>
+    </div>
+
+    <div id="chatBox" style="display:none;">
+        <h2>Chat Room</h2>
+        <div id="messages"></div>
+        <input type="text" id="messageInput" placeholder="Type a message">
+        <button id="sendButton" onclick="sendMessage()">Send</button>
+    </div>
+    <div id="overlay" onclick="closeChat()"></div>
+    <script>
+        const socket = io("http://localhost:3000");
+        let chatId = "";
+
+        socket.on("chatRequest", ({ chatId : receivedchatId, investorId }) => {
+            console.log(`Investor ${investorId} wants to chat in chat room ${chatId}`);
+            chatId = receivedchatId;
+            // Store chatId inside the button's dataset for persistence
+            document.getElementById("joinChatButton").setAttribute("data-chat-id", chatId);
+
+            document.getElementById("notificationBox").style.display = "block";
+        });
+
+        function joinChat() {
+
+             // Retrieve chatId from the button attribute
+            chatId = document.getElementById("joinChatButton").getAttribute("data-chat-id");
+
+            console.log(`before joining conform your chatroom : ${chatId}`)
+            socket.emit("joinChat", { chatId });
+            document.getElementById("chatBox").style.display = "block";
+            const overlay = document.getElementById("overlay");
+            overlay.style.display = "block"; // Ensure it's visible
+            setTimeout(() => {
+                overlay.style.background = "rgba(0, 0, 0, 0.3)";
+                    overlay.style.backdropFilter = "blur(5px)"; // Apply blur smoothly
+            }, 10);
+            document.getElementById("notificationBox").style.display = "none";
+        }
+
+        socket.on("chatActive", ({ chatId }) => {
+            console.log("Chat active:", chatId);
+        });
+
+        function sendMessage() {
+            const message = document.getElementById("messageInput").value;
+            socket.emit("sendMessage", { chatId, sender: "Startup", message });
+            document.getElementById("messageInput").value = "";
+        }
+
+        // socket.on("receiveMessage", ({ sender, message }) => {
+        //     document.getElementById("messages").innerHTML += `<p><b>${sender}:</b> ${message}</p>`;
+        // });
+
+        socket.on("receiveMessage", ({ sender, message }) => {
+            console.log("New message received:", message); // Debugging log
+
+            const Messages = document.getElementById("messages");
+            const msgElement = document.createElement("p");
+            if(sender === "Startup"){
+                msgElement.innerText = `me: ${message}`;
+            }else{
+                msgElement.innerText = `${sender}: ${message}`;
+            }
+            
+            Messages.appendChild(msgElement);
+        });
+
+    </script>
+</body>
+</html>
